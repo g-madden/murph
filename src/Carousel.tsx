@@ -1,23 +1,58 @@
-import React, { useState, ReactElement, useEffect } from 'react';
+import React, { useState, ReactElement, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 
 export interface Props {
-  children: ReactElement[];
+  children: JSX.Element[];
 }
+
+const margin = 75;
+const landscapeRatio = 1.5;
 
 const SCarouselWrapper = styled.div<{ width: number; height: number }>`
   display: flex;
-  width: ${({ width, height }) =>
-    width > height * 1.5 ? height * 1.5 : width}px;
-  height: ${({ width, height }) =>
-    width < height * 1.5 ? width / 1.5 : height}px;
+  width: calc(
+    ${({ width, height }) =>
+        width > height * landscapeRatio ? height * landscapeRatio : width}px -
+      ${margin * 2}px
+  );
+  height: calc(
+    ${({ width, height }) =>
+        width < height * landscapeRatio ? width / landscapeRatio : height}px -
+      ${margin * 2}px
+  );
+  overflow: hidden;
+  @media only screen and (max-width: 1024px) {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+  }
+  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+    width: ${({ width, height }) =>
+      width > height * landscapeRatio ? height * landscapeRatio : width}px;
+    height: ${({ width, height }) =>
+      width < height * landscapeRatio ? width / landscapeRatio : height}px;
+  }
 `;
 
-const Slide = styled.div<{ active?: boolean }>`
+const Slide = styled.div`
   flex: 0 0 auto;
-  opacity: ${(props) => (props.active ? 1 : 0)};
   transition: all 0.5s ease;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.landscape img {
+    width: 100%;
+    height: auto;
+  }
+  &.portrait img {
+    width: auto;
+    height: 100%;
+    @media only screen and (max-width: 1024px) and (orientation: portrait) {
+      width: 100%;
+      height: auto;
+    }
+  }
 `;
 
 const SCarouselSlides = styled.div<{ currentSlide: number }>`
@@ -28,6 +63,7 @@ const SCarouselSlides = styled.div<{ currentSlide: number }>`
       transform: translateX(-${props.currentSlide * 100}%);
     `};
   transition: all 0.5s ease;
+  width: 100%;
 `;
 
 export const Carousel = ({ children }: Props) => {
@@ -39,11 +75,15 @@ export const Carousel = ({ children }: Props) => {
     };
   };
   const [dims, setDims] = useState(() => getDims());
-  const activeSlide = children.map((slide, index) => (
-    <Slide active={currentSlide === index} key={index}>
-      {slide}
-    </Slide>
-  ));
+  const activeSlide = children.map((slide, index) => {
+    //const ref = useRef(slide);
+    const { width, height } = slide.props;
+    return (
+      <Slide key={index} className={width < height ? 'landscape' : 'portrait'}>
+        {slide}
+      </Slide>
+    );
+  });
 
   const handleKey = (e: KeyboardEvent) => {
     if (e.key == 'ArrowLeft') navLeft();
