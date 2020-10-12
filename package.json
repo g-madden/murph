@@ -1,6 +1,6 @@
 {
-  "name": "@snowpack/app-template-react-typescript",
-  "version": "1.10.4",
+  "name": "murph",
+  "version": "1.0.0",
   "license": "MIT",
   "keywords": [
     "csa-template"
