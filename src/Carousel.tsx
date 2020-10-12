@@ -22,7 +22,7 @@ const SCarouselWrapper = styled.div<{ width: number; height: number }>`
         width < height * landscapeRatio ? width / landscapeRatio : height}px -
       ${margin * 2}px
   );
-  overflow: hidden;
+
   @media only screen and (max-width: 1024px) {
     width: 100%;
     height: 100vh;
@@ -43,6 +43,7 @@ const Slide = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 10px;
   &.landscape img {
     width: 100%;
     height: auto;
