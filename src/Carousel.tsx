@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { Swipeable } from 'react-swipeable';
+import icon from './assets/chevron.svg';
 
 export interface Props {
   children: JSX.Element[];
@@ -67,6 +68,30 @@ const SCarouselSlides = styled.div<{ currentSlide: number }>`
   width: 100%;
 `;
 
+const Btn = styled.button`
+  background: none;
+  border: 1px solid #b1b1b1;
+  border-radius: 3px;
+  padding: 0;
+  position: absolute;
+  bottom: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s ease-in-out;
+  &.left {
+    left: 10px;
+    transform: rotate(180deg);
+  }
+  &.right {
+    right: 10px;
+  }
+  img {
+    display: block;
+  }
+  &:hover {
+    border-color: #848484;
+  }
+`;
+
 export const Carousel = ({ children }: Props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const getDims = () => {
@@ -115,12 +140,20 @@ export const Carousel = ({ children }: Props) => {
   });
 
   return (
-    <Swipeable onSwipedLeft={navRight} onSwipedRight={navLeft}>
-      <SCarouselWrapper {...dims}>
-        <SCarouselSlides currentSlide={currentSlide}>
-          {activeSlide}
-        </SCarouselSlides>
-      </SCarouselWrapper>
-    </Swipeable>
+    <>
+      <Swipeable onSwipedLeft={navRight} onSwipedRight={navLeft}>
+        <SCarouselWrapper {...dims}>
+          <SCarouselSlides currentSlide={currentSlide}>
+            {activeSlide}
+          </SCarouselSlides>
+        </SCarouselWrapper>
+      </Swipeable>
+      <Btn className="left" onClick={navLeft}>
+        <img src={icon} />
+      </Btn>
+      <Btn className="right" onClick={navRight}>
+        <img src={icon} />
+      </Btn>
+    </>
   );
 };
