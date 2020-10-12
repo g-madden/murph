@@ -1,5 +1,6 @@
-import React, { useState, ReactElement, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
+import { Swipeable } from 'react-swipeable';
 
 export interface Props {
   children: JSX.Element[];
@@ -76,7 +77,6 @@ export const Carousel = ({ children }: Props) => {
   };
   const [dims, setDims] = useState(() => getDims());
   const activeSlide = children.map((slide, index) => {
-    //const ref = useRef(slide);
     const { width, height } = slide.props;
     return (
       <Slide key={index} className={width < height ? 'landscape' : 'portrait'}>
@@ -88,11 +88,6 @@ export const Carousel = ({ children }: Props) => {
   const handleKey = (e: KeyboardEvent) => {
     if (e.key == 'ArrowLeft') navLeft();
     if (e.key == 'ArrowRight') navRight();
-  };
-
-  const handleTouch = (e: TouchEvent) => {
-    e.preventDefault();
-    //console.log(e.changedTouches);
   };
 
   const navLeft = () => {
@@ -112,7 +107,6 @@ export const Carousel = ({ children }: Props) => {
 
   useEffect(() => {
     window.addEventListener('keydown', handleKey);
-    //window.addEventListener('touchmove', handleTouch);
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('keydown', handleKey);
@@ -121,10 +115,12 @@ export const Carousel = ({ children }: Props) => {
   });
 
   return (
-    <SCarouselWrapper {...dims}>
-      <SCarouselSlides currentSlide={currentSlide}>
-        {activeSlide}
-      </SCarouselSlides>
-    </SCarouselWrapper>
+    <Swipeable onSwipedLeft={navRight} onSwipedRight={navLeft}>
+      <SCarouselWrapper {...dims}>
+        <SCarouselSlides currentSlide={currentSlide}>
+          {activeSlide}
+        </SCarouselSlides>
+      </SCarouselWrapper>
+    </Swipeable>
   );
 };
