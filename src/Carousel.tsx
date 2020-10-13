@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { Swipeable } from 'react-swipeable';
-import icon from './assets/chevron.svg';
 
 export interface Props {
   children: JSX.Element[];
@@ -149,12 +148,6 @@ export const Carousel = ({ children }: Props) => {
           </SCarouselSlides>
         </SCarouselWrapper>
       </Swipeable>
-      <Btn className="left" onClick={navLeft}>
-        <img src={icon} />
-      </Btn>
-      <Btn className="right" onClick={navRight}>
-        <img src={icon} />
-      </Btn>
     </>
   );
 };
