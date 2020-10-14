@@ -57,7 +57,7 @@ const SCarouselSlides = styled.div<{ translates: number }>`
 `;
 
 const Slide = styled.div`
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   transition: all 0.5s ease;
   display: flex;
 
