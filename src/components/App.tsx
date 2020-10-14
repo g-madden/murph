@@ -18,6 +18,9 @@ const Container = styled.div`
     margin: 0;
     height: 100vh;
   }
+  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+    height: auto;
+  }
   * {
     box-sizing: border-box;
   }

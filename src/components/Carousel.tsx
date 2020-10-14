@@ -39,6 +39,9 @@ const SCarouselWrapper = styled.div<{ width: number; height: number }>`
       display: none;
     }
   }
+  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+    height: auto;
+  }
 `;
 
 const SCarouselSlides = styled.div<{ translates: number }>`
@@ -51,6 +54,10 @@ const SCarouselSlides = styled.div<{ translates: number }>`
   @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
     padding: 0 10px;
   }
+  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+    padding: 10px;
+    flex-direction: column;
+  }
 `;
 
 const Slide = styled.div`
@@ -62,6 +69,11 @@ const Slide = styled.div`
     margin-right: var(--padding);
     @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
       margin-right: 10px;
+    }
+    @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+      margin: 0 0 10px 0;
+      width: 100%;
+      height: auto;
     }
   }
 `;
