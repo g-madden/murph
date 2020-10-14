@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Swipeable } from 'react-swipeable';
 
 export interface Props {
   children: JSX.Element[];
@@ -10,7 +9,6 @@ const margin = 50;
 const landscapeRatio = 1.5;
 
 const SCarouselWrapper = styled.div<{ width: number; height: number }>`
-  //display: flex;
   padding-bottom: 31px;
   margin: 0;
   width: ${({ width }) => width}px;
@@ -31,7 +29,6 @@ const SCarouselWrapper = styled.div<{ width: number; height: number }>`
   }
 
   @media only screen and (max-width: 1024px) {
-    //width: 100%;
     height: ${({ width }) => width / 1.5}px;
     margin: 0;
   }
@@ -58,8 +55,7 @@ const SCarouselSlides = styled.div<{ translates: number }>`
 
 const Slide = styled.div`
   transition: all 0.5s ease;
-  display: flex;
-  flex: 0 0 auto;
+  display: contents;
   img {
     height: 100%;
     width: auto;
@@ -79,14 +75,9 @@ export const Carousel = ({ children }: Props) => {
     };
   };
 
-  const [dims, setDims] = useState(() => getDims());
+  const [dims, setDims] = useState(getDims);
   const activeSlide = children.map((slide, index) => {
-    const { width, height } = slide.props;
-    return (
-      <Slide key={index} className={width < height ? 'landscape' : 'portrait'}>
-        {slide}
-      </Slide>
-    );
+    return <Slide key={index}>{slide}</Slide>;
   });
 
   const handleKey = (e: KeyboardEvent) => {
@@ -108,7 +99,7 @@ export const Carousel = ({ children }: Props) => {
 
   const handleResize = () => {
     const newDims = getDims();
-    //setDims(newDims);
+    setDims(newDims);
   };
 
   useEffect(() => {
@@ -125,13 +116,11 @@ export const Carousel = ({ children }: Props) => {
 
   return (
     <>
-      <Swipeable onSwipedLeft={navRight} onSwipedRight={navLeft}>
-        <SCarouselWrapper {...dims} className="wrapper">
-          <SCarouselSlides translates={translate} className="slides">
-            {activeSlide}
-          </SCarouselSlides>
-        </SCarouselWrapper>
-      </Swipeable>
+      <SCarouselWrapper {...dims} className="wrapper">
+        <SCarouselSlides translates={translate} className="slides">
+          {activeSlide}
+        </SCarouselSlides>
+      </SCarouselWrapper>
     </>
   );
 };
