@@ -59,6 +59,7 @@ const SCarouselSlides = styled.div<{ translates: number }>`
 const Slide = styled.div`
   transition: all 0.5s ease;
   display: flex;
+  flex: 0 0 auto;
   img {
     height: 100%;
     width: auto;
