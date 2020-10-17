@@ -2,14 +2,13 @@ import React from 'react';
 import { Gallery } from './Gallery';
 import styled from 'styled-components';
 import { Header } from './Header';
-import { Rulers } from './Rulers';
+//import { Rulers } from './Rulers';
 
 interface AppProps {}
 
 const Container = styled.div`
   display: grid;
   align-content: start;
-  // justify-content: center;
   overflow-x: scroll;
   overflow-y: hidden;
   width: 100%;

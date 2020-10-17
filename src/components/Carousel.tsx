@@ -7,6 +7,10 @@ export interface Props {
 
 const margin = 50;
 const landscapeRatio = 1.5;
+const mobileQuery =
+  '@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3)';
+const mobilePortrait = `${mobileQuery} and (orientation: portrait)`;
+const mobileLandscape = `${mobileQuery} and (orientation: landscape)`;
 
 const SCarouselWrapper = styled.div<{ width: number; height: number }>`
   padding-bottom: 31px;
@@ -32,14 +36,14 @@ const SCarouselWrapper = styled.div<{ width: number; height: number }>`
     height: ${({ width }) => width / 1.5}px;
     margin: 0;
   }
-  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+  ${mobileLandscape} {
     height: ${({ width, height }) => height - 70 - 10}px;
     padding: 0;
     &::-webkit-scrollbar:horizontal {
       display: none;
     }
   }
-  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+  ${mobilePortrait} {
     height: auto;
   }
 `;
@@ -51,10 +55,10 @@ const SCarouselSlides = styled.div<{ translates: number }>`
   width: 100%;
   height: 100%;
   padding: 0 var(--padding);
-  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+  ${mobileLandscape} {
     padding: 0 10px;
   }
-  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+  ${mobilePortrait} {
     padding: 10px;
     flex-direction: column;
   }
@@ -67,10 +71,10 @@ const Slide = styled.div`
     height: 100%;
     width: auto;
     margin-right: var(--padding);
-    @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+    ${mobileLandscape} {
       margin-right: 10px;
     }
-    @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+    ${mobilePortrait} {
       margin: 0 0 10px 0;
       width: 100%;
       height: auto;
@@ -88,9 +92,6 @@ export const Carousel = ({ children }: Props) => {
   };
 
   const [dims, setDims] = useState(getDims);
-  const activeSlide = children.map((slide, index) => {
-    return <Slide key={index}>{slide}</Slide>;
-  });
 
   const handleKey = (e: KeyboardEvent) => {
     if (e.key == 'ArrowLeft') navLeft();
@@ -99,14 +100,12 @@ export const Carousel = ({ children }: Props) => {
 
   const navLeft = () => {
     currentSlide !== 0 &&
-      setCurrentSlide(
-        (currentSlide - 1 + activeSlide.length) % activeSlide.length,
-      );
+      setCurrentSlide((currentSlide - 1 + children.length) % children.length);
   };
 
   const navRight = () => {
-    currentSlide !== activeSlide.length - 1 &&
-      setCurrentSlide((currentSlide + 1) % activeSlide.length);
+    currentSlide !== children.length - 1 &&
+      setCurrentSlide((currentSlide + 1) % children.length);
   };
 
   const handleResize = () => {
@@ -130,7 +129,9 @@ export const Carousel = ({ children }: Props) => {
     <>
       <SCarouselWrapper {...dims} className="wrapper">
         <SCarouselSlides translates={translate} className="slides">
-          {activeSlide}
+          {children.map((slide, index) => (
+            <Slide key={index}>{slide}</Slide>
+          ))}
         </SCarouselSlides>
       </SCarouselWrapper>
     </>
