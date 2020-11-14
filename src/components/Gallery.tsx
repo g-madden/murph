@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { getImages } from '../getImages';
 
 import { Carousel } from './Carousel';
+import { Loader } from './Loader';
+import { getImages } from '../getImages';
 
 export const Gallery = () => {
   const [images, setImages] = useState<string[]>([]);
@@ -16,5 +17,7 @@ export const Gallery = () => {
         <img src={image} key={i} width="1209" height="806" />
       ))}
     </Carousel>
-  ) : null;
+  ) : (
+    <Loader />
+  );
 };
