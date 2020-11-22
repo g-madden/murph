@@ -14,7 +14,7 @@ export const Gallery = () => {
   return images.length > 0 ? (
     <Carousel>
       {images.map((image, i) => (
-        <img loading="lazy" src={image} key={i} width="1209" height="806" />
+        <img src={image} key={i} width="1209" height="806" loading="lazy" />
       ))}
     </Carousel>
   ) : (
